@@ -9,10 +9,20 @@ let server:net.Server = net.createServer();
 
 // when the server is connected
 server.on('connection', function(socket:net.Socket){
+    /* when a socket is connected... */
 
-    // when data is sent to the socket
-    socket.on('data', function(data){
-        //
+    //notify on data received event
+    socket.on('data', function(data) {
+        //process data
+        var echo = data.toString().toUpperCase();
+
+        if(echo === 'EXIT') {
+            socket.write("Goodbye!");
+            socket.end();
+        }
+        else {
+            socket.write("Did you say '"+echo+"'?");
+        }
     });
 
     socket.on('close', function(){
